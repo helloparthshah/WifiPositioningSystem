@@ -1,0 +1,128 @@
+<html>
+  <head>
+    <title>WPS</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+
+  <body class="text-white">
+    <h1 class="text-center p-5">WiFi Positioning System (WPS)</h1>
+
+    <div id="place_for_suggestions" class="container p-5 my-5">
+      <div class="card text-white">
+        <div class="card-header"><h2>Introduction</h2></div>
+        <div class="card-body">
+          Global positioning system or GPS is commonly used to navigate through
+          roads and other open locations. While GPS is good with larger
+          distances, it is only able to achieve a limited accuracy in indoor
+          spaces. Imagine navigating through a mall or a building using nothing
+          but GPS, sound difficult right? Thus, we created Wi-Fi Positioning
+          System (WPS) to help you navigate through indoor spaces. WPS relies on
+          Wi-Fi signal strengths from close by networks in order to predict your
+          location.
+        </div>
+      </div>
+      <div class="card text-white">
+        <div class="card-header"><h2>Training!</h2></div>
+        <div class="card-body">
+          <p>
+            First of all, in order to predict your location, we need to train
+            our model with WiFi signal strengths from close by networks. On our
+            server, we created a post request that will be invoked few times a
+            second. The request will take in SSID, signal strength, and location
+            of the client and store it in a JSON file. The requests would look
+            something like
+            <code
+              >{"eduroam": -86, "ucd-guest": -85, "testwifi": -30, "home1": -82,
+              "location": "inside"}</code
+            >
+          </p>
+          <p>
+            After gathering around 200 points of data over 2 lab sessions, we
+            converted the JSON into CSV in order to train it. We used Tensoflow
+            to train our model. After training for around 100 epochs, we were
+            able to get an accuracy of around 85% on our test data (80-20
+            split).
+          </p>
+        </div>
+      </div>
+      <div class="card text-white">
+        <div class="card-header"><h2>Predictions</h2></div>
+        <div class="card-body">
+          <p>
+            Now that we have trained our model, we can predict your location.
+            Since we are using a sigmoid activation function, if the model
+            returns a value greater than 0.5, we can assume that you are outside
+            and vice versa. We added another endpoint to our server that will
+            take in your SSID and signal strength and return your prediction. We
+            also created a database that will store the current location of the
+            client to show it on our frontend.
+          </p>
+        </div>
+      </div>
+      <div class="card text-white">
+        <div class="card-header"><h2>Security</h2></div>
+        <div class="card-body">
+          <p>
+            Security is a big part of our project since we are dealing with
+            sensitive data such as locations and Wi-Fi SSIDs. We used OAuth2 to
+            authenticate our users. The client sends the username and password
+            in base64 encoding to the /login endpoint. The server validates the
+            credentials and returns a JWT token. The client sends the token to
+            the other endpoints to ensure that the user is authenticated. The
+            passwords are stored using sha256 hashing. The token is only valid
+            for 1 hour after which it expires. The user then needs to ask for a
+            new token. Since it supports multiple users, we were able to have 2
+            devices working at the same time and being able to view their
+            locations in real time.
+          </p>
+        </div>
+      </div>
+      <div class="card text-white">
+        <div class="card-header"><h2>IF THIS THEN THAT</h2></div>
+        <div class="card-body">
+          <p>
+            To create a potential use case for our project, we created a simple
+            web app that will show you the current location of the client. We
+            also added the ability to create rules in IF THIS THEN THAT format.
+            The user can create a rule that will trigger when the client is
+            inside and when the client is outside. The user can also create a
+            rule that will trigger when the client is in a specific location.
+            The user can choose from play/pause on Spotify, email, text, or
+            notifying the user.
+          </p>
+        </div>
+      </div>
+      <div class="card text-white">
+        <div class="card-header"><h2>Video</h2></div>
+        <div class="card-body">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/hJyOMAuKQZE"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

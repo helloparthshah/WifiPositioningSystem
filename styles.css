@@ -1,0 +1,40 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+.card {
+  margin-bottom: 5%;
+}
+
+.iftt {
+  padding: 20px;
+}
+
+svg:hover {
+  cursor: pointer;
+}
+
+.toast {
+  position: fixed;
+  top: 10;
+  left: 10;
+  z-index: 9999;
+}
+
+body {
+  background-color: #130e28;
+}
+
+.card {
+  background-color: #5a1294;
+}
+
+.btn {
+  background-color: hsl(350, 62%, 45%);
+  --bs-btn-border-color: none;
+}
+
+.btn:hover {
+  background-color: hsl(350, 63%, 36%);
+}
